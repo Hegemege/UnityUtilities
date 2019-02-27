@@ -7,7 +7,7 @@ public static class ModFix
     /// <summary>
     /// Modulo operation that supports negative integers more intuitively.
     /// </summary>
-    /// <returns>Returns x % m</returns>
+    /// <returns>Returns x mod m</returns>
     public static int Mod(int x, int m)
     {
         int r = x % m;

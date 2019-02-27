@@ -84,7 +84,7 @@ A set of C# scripts I commonly use and find helpful in Unity, especially during 
 
 *   ModFix.cs
 
-    -   `ModFix.Mod(int x, int m)`, a modulo operator that works for negative values in a more intuitive way than the native version.
+    -   `ModFix.Mod(int x, int m)`, returns the Euclidean definition of a modulo of the two values. C# native a % b is the remainder. Negative divider is not well-defined, but negative dividend works properly. Can be used for wrapping around a list where you jump multiple steps over the end/start of the list.
 
 *   MonoBehaviourExtensions.cs
 

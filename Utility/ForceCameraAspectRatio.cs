@@ -13,6 +13,8 @@ public class ForceCameraAspectRatio : MonoBehaviour
     private bool _set;
     private float _setWidth;
     private float _setHeight;
+    private float _screenWidth;
+    private float _screenHeight;
 
     void Awake()
     {
@@ -23,17 +25,19 @@ public class ForceCameraAspectRatio : MonoBehaviour
     {
         // Early exits
         if (!_cameraRef) return;
-        if (_set && _setWidth == Width && _setHeight == Height) return;
+        if (_set && _setWidth == Width && _setHeight == Height && _screenWidth == (float) Screen.width && _screenHeight == (float) Screen.height) return;
 
         _set = true;
         _setWidth = Width;
         _setHeight = Height;
+        _screenWidth = (float) Screen.width;
+        _screenHeight = (float) Screen.height;
 
         // Force camera aspect ratio to the given ratio
         var targetAspect = Width / Height;
-        var windowAspect = (float) Screen.width / (float) Screen.height;
+        var screenAspect = _screenWidth / _screenHeight;
 
-        var scaleHeight = windowAspect / targetAspect;
+        var scaleHeight = screenAspect / targetAspect;
 
         // Letterbox
         if (scaleHeight < 1.0f)
@@ -42,8 +46,8 @@ public class ForceCameraAspectRatio : MonoBehaviour
 
             rect.width = 1.0f;
             rect.height = scaleHeight;
-            //rect.x = 0;
-            //rect.y = (1.0f - scaleHeight) / 2.0f;
+            rect.x = 0;
+            rect.y = (1.0f - scaleHeight) / 2.0f;
 
             _cameraRef.rect = rect;
         }
@@ -56,8 +60,8 @@ public class ForceCameraAspectRatio : MonoBehaviour
 
             rect.width = scalewidth;
             rect.height = 1.0f;
-            //rect.x = (1.0f - scalewidth) / 2.0f;
-            //rect.y = 0;
+            rect.x = (1.0f - scalewidth) / 2.0f;
+            rect.y = 0;
 
             _cameraRef.rect = rect;
         }
