@@ -18,47 +18,63 @@ A set of C# scripts I commonly use and find helpful in Unity, especially during 
         -   `public GameObject gameObject`
     -   Usage example:
 
-    ```csharp
-    BulletPool.cs
-    ...
-    public class BulletPool : GenericComponentPool<BulletController> {}
-    ...
+        ```csharp
+        BulletPool.cs
+        ...
+        public class BulletPool : GenericComponentPool<BulletController> {}
+        ...
 
-    BulletController.cs
-    ...
-    public class BulletController : MonoBehaviour {
-        public Vector3 Velocity;
-        public float Damage;
+        BulletController.cs
+        ...
+        public class BulletController : MonoBehaviour {
+            public Vector3 Velocity;
+            public float Damage;
 
-        private void OnCollisionEnter(Collision other) {
-            gameObject.setActive(false);
-            // Also deal damage etc
+            private void OnCollisionEnter(Collision other) {
+                gameObject.setActive(false);
+                // Also deal damage etc
+            }
+
+            private void FixedUpdate() {
+                transform.position += Velocity * Time.fixedDeltaTime;
+            }
         }
+        ...
 
-        private void FixedUpdate() {
-            transform.position += Velocity * Time.fixedDeltaTime;
+        BulletManager.cs
+        ...
+        private BulletPool _bulletPool;
+        void Awake() {
+            _bulletPool = GetComponent<BulletPool>();
         }
-    }
-    ...
+        ...
+        public void FireBullet(Vector3 origin, Vector3 direction, float velocity, float damage) {
+            var pooledBulletWrapper = _bulletPool.GetPooledObject();
 
-    BulletManager.cs
-    ...
-    private BulletPool _bulletPool;
-    void Awake() {
-        _bulletPool = GetComponent<BulletPool>();
-    }
-    ...
-    public void FireBullet(Vector3 origin, Vector3 direction, float velocity, float damage) {
-        var pooledBulletWrapper = _bulletPool.GetPooledObject();
+            var bulletObject = pooledBulletWrapper.gameObject;
+            bulletObject.transform.position = origin;
 
-        var bulletObject = pooledBulletWrapper.gameObject;
-        bulletObject.transform.position = origin;
+            var bulletController = pooledBulletWrapper.component;
+            bulletController.Damage = damage;
+            bulletController.Velocity = direction.normalized * velocity;
+        }
+        ```
 
-        var bulletController = pooledBulletWrapper.component;
-        bulletController.Damage = damage;
-        bulletController.Velocity = direction.normalized * velocity;
-    }
-    ```
+-   GenericManager.cs
+
+    -   Abstract base class to be inherited from when creating singleton managers.
+
+        -   Inheriting class must implement `protected override void Init()`. This method is called only once, from the `Awake()` call of the first instance of the inheriting manager class.
+        -   To use `Awake()` in the inheriting class, use
+
+            ```csharp
+            protected override void Awake()
+            {
+                base.Awake();
+
+                // Your logic
+            }
+            ```
 
 *   ListExtensions.cs
 
