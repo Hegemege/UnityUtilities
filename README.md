@@ -104,7 +104,7 @@ A set of C# scripts I commonly use and find helpful in Unity, especially during 
         // >>> test, 1, 5, (1,0, 1,0, 1,0)
         ```
 
-    -   Supports a custom delimiter by setting the static string `MonoBehaviourExtensions.Delimiter`.
+    -   Supports a custom delimiter by setting the static string `MonoBehaviourExtensions.MultiLogDelimiter`.
 
 *   PoolableParticleSystem.cs
 
