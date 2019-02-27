@@ -10,7 +10,6 @@ public class ForceCameraAspectRatio : MonoBehaviour
     public float Height;
 
     private Camera _cameraRef;
-    private bool _set;
     private float _setWidth;
     private float _setHeight;
     private float _screenWidth;
@@ -25,9 +24,8 @@ public class ForceCameraAspectRatio : MonoBehaviour
     {
         // Early exits
         if (!_cameraRef) return;
-        if (_set && _setWidth == Width && _setHeight == Height && _screenWidth == (float) Screen.width && _screenHeight == (float) Screen.height) return;
+        if (_setWidth == Width && _setHeight == Height && _screenWidth == (float) Screen.width && _screenHeight == (float) Screen.height) return;
 
-        _set = true;
         _setWidth = Width;
         _setHeight = Height;
         _screenWidth = (float) Screen.width;
