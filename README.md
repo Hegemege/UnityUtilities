@@ -63,8 +63,8 @@ A set of C# scripts I commonly use and find helpful in Unity, especially during 
 *   ListExtensions.cs
 
     -   List shuffling using a Fisher-Yates shuffle
-        -   `List<T>.Shuffle()` uses a static `System.Random` generator instance.
-        -   `List<T>.Shuffle(UnityEngine.Random)` uses the given `UnityEngine.Random` generator instance.
+        -   `List<T>.Shuffle()` uses the `UnityEngine.Random` generator
+        -   `List<T>.Shuffle(System.Random)` uses the given `System.Random` generator instance.
 
 *   ModFix.cs
 

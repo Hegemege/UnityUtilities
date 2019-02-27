@@ -4,12 +4,11 @@ using UnityEngine;
 
 public static class ListExtensions
 {
-    private static System.Random rng = new System.Random();
-
     /// <summary>
-    /// Fisher-Yates shuffle using System.Random generator.
+    /// Fisher-Yates shuffle using the UnityEngine.Random generator.
     /// </summary>
     /// <param name="list"></param>
+    /// <param name="rng"></param>
     /// <typeparam name="T"></typeparam>
     public static void Shuffle<T>(this IList<T> list)
     {
@@ -17,7 +16,7 @@ public static class ListExtensions
         while (n > 1)
         {
             n--;
-            int k = rng.Next(n + 1);
+            int k = UnityEngine.Random.Range(0, n + 1);
             T value = list[k];
             list[k] = list[n];
             list[n] = value;
@@ -25,18 +24,17 @@ public static class ListExtensions
     }
 
     /// <summary>
-    /// Fisher-Yates shuffle but for usage with UnityEngine.Random generator
+    /// Fisher-Yates shuffle using the given System.Random generator instance.
     /// </summary>
     /// <param name="list"></param>
-    /// <param name="rng"></param>
     /// <typeparam name="T"></typeparam>
-    public static void Shuffle<T>(this IList<T> list, UnityEngine.Random rng)
+    public static void Shuffle<T>(this IList<T> list, System.Random rng)
     {
         int n = list.Count;
         while (n > 1)
         {
             n--;
-            int k = rng.Range(0, n + 1);
+            int k = rng.Next(n + 1);
             T value = list[k];
             list[k] = list[n];
             list[n] = value;
