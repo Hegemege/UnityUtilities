@@ -7,9 +7,6 @@ public static class ListExtensions
     /// <summary>
     /// Fisher-Yates shuffle using the UnityEngine.Random generator.
     /// </summary>
-    /// <param name="list"></param>
-    /// <param name="rng"></param>
-    /// <typeparam name="T"></typeparam>
     public static void Shuffle<T>(this IList<T> list)
     {
         int n = list.Count;
@@ -26,8 +23,6 @@ public static class ListExtensions
     /// <summary>
     /// Fisher-Yates shuffle using the given System.Random generator instance.
     /// </summary>
-    /// <param name="list"></param>
-    /// <typeparam name="T"></typeparam>
     public static void Shuffle<T>(this IList<T> list, System.Random rng)
     {
         int n = list.Count;

@@ -7,11 +7,11 @@ public static class ExtensionMethods
     /// <summary>
     /// Maps a float value from one range of values to another.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="x1"></param>
-    /// <param name="x2"></param>
-    /// <param name="y1"></param>
-    /// <param name="y2"></param>
+    /// <param name="value">Current value</param>
+    /// <param name="x1">Start of the current range</param>
+    /// <param name="x2">End of the current range</param>
+    /// <param name="y1">Start of the target range</param>
+    /// <param name="y2">End of the target range</param>
     /// <returns></returns>
     public static float Map(this float value, float x1, float x2, float y1, float y2)
     {

@@ -4,10 +4,11 @@ using UnityEngine;
 
 /// <summary>
 /// Generic wrapper for a GameObject that has a component of the given type.
-/// Avoids a common GetComponent<T> call after a GameObject is reused from the pool.
-/// GetComponent<T> will be called once when a new object is added to the pool.
+/// 
+/// Avoids a common GetComponent call after a GameObject is reused from the pool.
+/// 
+/// GetComponent will be called once when a new object is added to the pool.
 /// </summary>
-/// <typeparam name="T"></typeparam>
 public class ComponentWrapper<T>
 {
     // The fields are lower case to match the lower case gameObject field in MonoBehaviours
@@ -18,7 +19,6 @@ public class ComponentWrapper<T>
 /// <summary>
 /// A generic pool for GameObjects with the given MonoBehaviour generic type T.
 /// </summary>
-/// <typeparam name="T"></typeparam>
 public class GenericComponentPool<T> : MonoBehaviour
 {
     public GameObject PooledObjectPrefab;
@@ -35,11 +35,13 @@ public class GenericComponentPool<T> : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns an instance of the prefab the pool is used to handle.
+    /// Get a GameObject from the pool. Reuses an inactive object or instantiates a new one.
+    /// </summary>
+    /// <returns>
+    /// Returns a wrapper object containing the GameObject and the component reference.
     /// 
     /// Returns `null` if `WillGrow` is false and there are no inactive objects in the pool.
-    /// </summary>
-    /// <returns></returns>
+    /// </returns>
     public ComponentWrapper<T> GetPooledObject()
     {
         for (int i = 0; i < Pool.Count; i++)
