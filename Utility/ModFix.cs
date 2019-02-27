@@ -10,6 +10,7 @@ public static class ModFix
     /// <returns>Returns x % m</returns>
     public static int Mod(int x, int m)
     {
-        return (x % m + m) % m;
+        int r = x % m;
+        return r < 0 ? r + m : r;
     }
 }
