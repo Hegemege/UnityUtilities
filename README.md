@@ -64,13 +64,13 @@ A set of C# scripts I commonly use and find helpful in Unity, especially during 
 
     -   Abstract base class to be inherited from when creating singleton managers.
 
-        -   Inheriting class must implement `protected override void Init()`. This method is called only once, from the `Awake()` call of the first instance of the inheriting manager class.
         -   To use `Awake()` in the inheriting class, use
 
             ```csharp
             protected override void Awake()
             {
                 base.Awake();
+                Instance = this;
 
                 // Your logic
             }

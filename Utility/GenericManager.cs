@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GenericManager : MonoBehaviour
+public abstract class GenericManager<T> : MonoBehaviour
 {
     // Singleton setup
-    public static GenericManager Instance { get; private set; }
+    public static T Instance { get; protected set; }
 
     protected virtual void Awake()
     {
@@ -15,11 +15,6 @@ public abstract class GenericManager : MonoBehaviour
             return;
         }
 
-        Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        Init();
     }
-
-    protected abstract void Init();
 }
