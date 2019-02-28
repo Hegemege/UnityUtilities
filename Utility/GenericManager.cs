@@ -7,7 +7,7 @@ public abstract class GenericManager<T> : MonoBehaviour
     // Singleton setup
     public static T Instance { get; protected set; }
 
-    protected virtual void Awake()
+    protected virtual void InitializeSingleton(T parent)
     {
         if (Instance != null)
         {
@@ -16,5 +16,6 @@ public abstract class GenericManager<T> : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+        Instance = parent;
     }
 }

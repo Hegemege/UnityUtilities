@@ -62,17 +62,19 @@ A set of C# scripts I commonly use and find helpful in Unity, especially during 
 
 -   GenericManager.cs
 
-    -   Abstract base class to be inherited from when creating singleton managers.
+    -   Abstract base class to be inherited from when creating singleton managers. If a singleton of the class already exists, new objects will be immediately destroyed when `InitializeSingleton()` is called.
 
-        -   To use `Awake()` in the inheriting class, use
+        -   Usage
 
             ```csharp
-            protected override void Awake()
+            public class GameManager : GenericManager<GameManager>
             {
-                base.Awake();
-                Instance = this;
+                void Awake()
+                {
+                    InitializeSingleton(this);
 
-                // Your logic
+                    // Your logic
+                }
             }
             ```
 
