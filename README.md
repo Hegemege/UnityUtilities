@@ -62,7 +62,7 @@ A set of C# scripts I commonly use and find helpful in Unity, especially during 
 
 -   GenericManager.cs
 
-    -   Abstract base class to be inherited from when creating singleton managers. If a singleton of the class already exists, new objects will be immediately destroyed when `InitializeSingleton()` is called.
+    -   Abstract base class to be inherited from when creating singleton managers. If a singleton of the class already exists, new objects will be immediately destroyed when `InitializeSingleton()` is called. However, the Awake call will be finished by the MonoBehaviour
 
         -   Usage
 
@@ -71,7 +71,7 @@ A set of C# scripts I commonly use and find helpful in Unity, especially during 
             {
                 void Awake()
                 {
-                    InitializeSingleton(this);
+                    if (!InitializeSingleton(this)) return;
 
                     // Your logic
                 }
