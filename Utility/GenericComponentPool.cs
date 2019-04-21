@@ -2,89 +2,93 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Generic wrapper for a GameObject that has a component of the given type.
-/// 
-/// Avoids a common GetComponent call after a GameObject is reused from the pool.
-/// 
-/// GetComponent will be called once when a new object is added to the pool.
-/// </summary>
-public class ComponentWrapper<T>
+namespace UnityUtilities
 {
-    // The fields are lower case to match the lower case gameObject field in MonoBehaviours
-    public T component;
-    public GameObject gameObject;
-}
 
-/// <summary>
-/// A generic pool for GameObjects with the given MonoBehaviour generic type T.
-/// </summary>
-public class GenericComponentPool<T> : MonoBehaviour
-{
-    public GameObject PooledObjectPrefab;
-    public bool WillGrow;
-
-    [HideInInspector]
-    public List<ComponentWrapper<T>> Pool;
-
-    public GameObject Container;
-
-    protected virtual void Awake()
+    /// <summary>
+    /// Generic wrapper for a GameObject that has a component of the given type.
+    /// 
+    /// Avoids a common GetComponent call after a GameObject is reused from the pool.
+    /// 
+    /// GetComponent will be called once when a new object is added to the pool.
+    /// </summary>
+    public class ComponentWrapper<T>
     {
-        Pool = new List<ComponentWrapper<T>>();
+        // The fields are lower case to match the lower case gameObject field in MonoBehaviours
+        public T component;
+        public GameObject gameObject;
     }
 
     /// <summary>
-    /// Get a GameObject from the pool. Reuses an inactive object or instantiates a new one.
+    /// A generic pool for GameObjects with the given MonoBehaviour generic type T.
     /// </summary>
-    /// <returns>
-    /// Returns a wrapper object containing the GameObject and the component reference.
-    /// 
-    /// Returns `null` if `WillGrow` is false and there are no inactive objects in the pool.
-    /// </returns>
-    public ComponentWrapper<T> GetPooledObject()
+    public class GenericComponentPool<T> : MonoBehaviour
     {
-        for (int i = 0; i < Pool.Count; i++)
-        {
-            var pooledObject = Pool[i];
+        public GameObject PooledObjectPrefab;
+        public bool WillGrow;
 
-            if (pooledObject == null)
+        [HideInInspector]
+        public List<ComponentWrapper<T>> Pool;
+
+        public GameObject Container;
+
+        protected virtual void Awake()
+        {
+            Pool = new List<ComponentWrapper<T>>();
+        }
+
+        /// <summary>
+        /// Get a GameObject from the pool. Reuses an inactive object or instantiates a new one.
+        /// </summary>
+        /// <returns>
+        /// Returns a wrapper object containing the GameObject and the component reference.
+        /// 
+        /// Returns `null` if `WillGrow` is false and there are no inactive objects in the pool.
+        /// </returns>
+        public ComponentWrapper<T> GetPooledObject()
+        {
+            for (var i = 0; i < Pool.Count; i++)
             {
-                ComponentWrapper<T> wrapper = InstantiateNew();
-                Pool[i] = wrapper;
+                var pooledObject = Pool[i];
+
+                if (pooledObject == null)
+                {
+                    var wrapper = InstantiateNew();
+                    Pool[i] = wrapper;
+                    return wrapper;
+                }
+
+                if (!pooledObject.gameObject.activeInHierarchy)
+                {
+                    pooledObject.gameObject.SetActive(true);
+                    return pooledObject;
+                }
+            }
+
+            if (WillGrow)
+            {
+                var wrapper = InstantiateNew();
+                Pool.Add(wrapper);
                 return wrapper;
             }
 
-            if (!pooledObject.gameObject.activeInHierarchy)
+            return null;
+        }
+
+        private ComponentWrapper<T> InstantiateNew()
+        {
+            var obj = (GameObject) Instantiate(PooledObjectPrefab);
+
+            if (Container != null)
             {
-                pooledObject.gameObject.SetActive(true);
-                return pooledObject;
+                obj.transform.parent = Container.transform;
             }
+
+            var wrapper = new ComponentWrapper<T>();
+            wrapper.component = obj.GetComponent<T>();
+            wrapper.gameObject = obj;
+
+            return wrapper;
         }
-
-        if (WillGrow)
-        {
-            ComponentWrapper<T> comp = InstantiateNew();
-            Pool.Add(comp);
-            return comp;
-        }
-
-        return null;
-    }
-
-    private ComponentWrapper<T> InstantiateNew()
-    {
-        var obj = (GameObject) Instantiate(PooledObjectPrefab);
-
-        if (Container != null)
-        {
-            obj.transform.parent = Container.transform;
-        }
-
-        var wrapper = new ComponentWrapper<T>();
-        wrapper.component = obj.GetComponent<T>();
-        wrapper.gameObject = obj;
-
-        return wrapper;
     }
 }

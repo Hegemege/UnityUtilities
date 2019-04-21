@@ -2,22 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GenericManager<T> : MonoBehaviour
+namespace UnityUtilities
 {
-    // Singleton setup
-    public static T Instance { get; protected set; }
-
-    protected virtual bool InitializeSingleton(T parent)
+    public abstract class GenericManager<T> : MonoBehaviour
     {
-        if (Instance != null)
+        // Singleton setup
+        public static T Instance { get; protected set; }
+
+        protected virtual bool InitializeSingleton(T parent)
         {
-            Destroy(gameObject);
-            return false;
+            if (Instance != null)
+            {
+                Destroy(gameObject);
+                return false;
+            }
+
+            DontDestroyOnLoad(gameObject);
+            Instance = parent;
+
+            return true;
         }
-
-        DontDestroyOnLoad(gameObject);
-        Instance = parent;
-
-        return true;
     }
 }

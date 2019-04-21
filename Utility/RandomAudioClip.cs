@@ -2,37 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomAudioClip : MonoBehaviour
+namespace UnityUtilities
 {
-    public List<AudioClip> Clips;
-
-    private AudioSource _source;
-    private bool _played;
-
-    void Awake()
+    public class RandomAudioClip : MonoBehaviour
     {
-        _source = GetComponent<AudioSource>();
-    }
+        public List<AudioClip> Clips;
 
-    void Update()
-    {
-        if (_source.isPlaying)
+        private AudioSource _source;
+        private bool _played;
+
+        void Awake()
         {
-            return;
+            _source = GetComponent<AudioSource>();
         }
-        else
+
+        void Update()
         {
-            if (_played)
+            if (_source.isPlaying)
             {
-                _played = false;
-                _source.Stop();
-                gameObject.SetActive(false);
+                return;
             }
             else
             {
-                _source.clip = Clips[Random.Range(0, Clips.Count)];
-                _source.Play();
-                _played = true;
+                if (_played)
+                {
+                    _played = false;
+                    _source.Stop();
+                    gameObject.SetActive(false);
+                }
+                else
+                {
+                    _source.clip = Clips[Random.Range(0, Clips.Count)];
+                    _source.Play();
+                    _played = true;
+                }
             }
         }
     }

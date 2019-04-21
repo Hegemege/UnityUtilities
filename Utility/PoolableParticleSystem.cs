@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolableParticleSystem : MonoBehaviour
+namespace UnityUtilities
 {
-    private ParticleSystem _ps;
-
-    void Awake()
+    public class PoolableParticleSystem : MonoBehaviour
     {
-        _ps = GetComponentInChildren<ParticleSystem>();
-    }
+        private ParticleSystem _ps;
 
-    void Update()
-    {
-        if (!_ps.IsAlive())
+        void Awake()
         {
-            _ps.Clear();
-            gameObject.SetActive(false);
-            return;
+            _ps = GetComponentInChildren<ParticleSystem>();
         }
 
-        if (!_ps.isPlaying)
+        void Update()
         {
-            _ps.Play();
+            if (!_ps.IsAlive())
+            {
+                _ps.Clear();
+                gameObject.SetActive(false);
+                return;
+            }
+
+            if (!_ps.isPlaying)
+            {
+                _ps.Play();
+            }
         }
     }
 }

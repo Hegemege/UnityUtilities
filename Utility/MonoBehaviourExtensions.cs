@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class MonoBehaviourExtensions
+namespace UnityUtilities
 {
-    public static string MultiLogDelimiter = ", ";
-    public static void Log(this MonoBehaviour mb, params object[] list)
+    public static class MonoBehaviourExtensions
     {
-        Debug.Log(string.Join(MonoBehaviourExtensions.MultiLogDelimiter, list));
+        public static string MultiLogDelimiter = ", ";
+        public static void Log(this MonoBehaviour mb, params object[] list)
+        {
+            Debug.Log(string.Join(MonoBehaviourExtensions.MultiLogDelimiter, list));
+        }
     }
 }

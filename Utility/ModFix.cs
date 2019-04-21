@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ModFix
+namespace UnityUtilities
 {
-    /// <summary>
-    /// Modulo operation that supports negative integers more intuitively.
-    /// </summary>
-    /// <returns>Returns x mod m</returns>
-    public static int Mod(int x, int m)
+    public static class ModFix
     {
-        int r = x % m;
-        return r < 0 ? r + m : r;
+        /// <summary>
+        /// Modulo operation that supports negative integers more intuitively.
+        /// </summary>
+        /// <returns>Returns x mod m</returns>
+        public static int Mod(int x, int m)
+        {
+            var r = x % m;
+            return r < 0 ? r + m : r;
+        }
     }
 }
