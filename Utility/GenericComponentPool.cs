@@ -77,16 +77,21 @@ namespace UnityUtilities
 
         private ComponentWrapper<T> InstantiateNew()
         {
-            var obj = (GameObject) Instantiate(PooledObjectPrefab);
-
+            GameObject obj;
             if (Container != null)
             {
-                obj.transform.parent = Container.transform;
+                obj = Instantiate(PooledObjectPrefab, Container.transform);
+            }
+            else
+            {
+                obj = Instantiate(PooledObjectPrefab);
             }
 
-            var wrapper = new ComponentWrapper<T>();
-            wrapper.component = obj.GetComponent<T>();
-            wrapper.gameObject = obj;
+            var wrapper = new ComponentWrapper<T>
+            {
+                component = obj.GetComponent<T>(),
+                gameObject = obj
+            };
 
             return wrapper;
         }
